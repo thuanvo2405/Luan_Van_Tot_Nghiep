@@ -30,6 +30,7 @@ export default function RootLayout({
       >
         <Header />
         {children}
+        <div className="bg-black text-white mt-3 w-full h-50">Footer</div>
       </body>
     </html>
   );
