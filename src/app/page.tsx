@@ -15,7 +15,7 @@ import place from "public/place.png";
 export default function Home() {
   return (
     <div>
-      <nav className="h-[60px] bg-blue-200 w-full flex items-center justify-center">
+      <nav className="h-[60px] bg-blue-200 w-full flex items-center justify-center mb-4">
         <ul className="flex h-full items-center w-[1284px] gap-2">
           <li>
             <Button variant="destructive">Nhạc sống</Button>
@@ -63,8 +63,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div>
-          <p>Sự kiện đặt biệt</p>
+        <div className="mt-8">
+          <p className="font-semibold text-lg mb-3">Sự kiện đặt biệt</p>
           <Carousel opts={{ align: "start" }}>
             <CarouselContent>
               {Array.from({ length: 5 }).map((_, index) => (
@@ -85,8 +85,8 @@ export default function Home() {
           </Carousel>
         </div>
 
-        <div>
-          <p>Nhạc sống</p>
+        <div className="mt-8">
+          <p className="font-semibold text-lg mb-3">Nhạc sống</p>
           <div className="flex gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
               <Card key={index} />
@@ -94,41 +94,39 @@ export default function Home() {
           </div>
         </div>
 
-        <div>
-          <p>Sân khấu & Nghệ thuật</p>
+        <div className="mt-8">
+          <p className="font-semibold text-lg mb-3">Sân khấu & Nghệ thuật</p>
           <div className="flex gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
               <Card key={index} />
             ))}
           </div>
         </div>
-        <div>
-          <p>Thể loại khác</p>
+        <div className="mt-8">
+          <p className="font-semibold text-lg mb-3">Thể loại khác</p>
           <div className="flex gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
               <Card key={index} />
             ))}
           </div>
         </div>
-        <div>
-          <div>
-            <p>Sự kiện theo khu vực</p>
-            <div className="flex gap-4 ">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <Link
-                  href="/"
-                  key={index}
-                  className="relative rounded-2xl overflow-hidden"
-                >
-                  <Image
-                    src={place}
-                    alt={`slide-${index}`}
-                    className="aspect-square object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-800"></div>
-                </Link>
-              ))}
-            </div>
+        <div className="mt-8">
+          <p className="font-semibold text-lg mb-3">Sự kiện theo khu vực</p>
+          <div className="flex gap-4 ">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Link
+                href="/"
+                key={index}
+                className="relative rounded-2xl overflow-hidden"
+              >
+                <Image
+                  src={place}
+                  alt={`slide-${index}`}
+                  className="aspect-square object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-800"></div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
