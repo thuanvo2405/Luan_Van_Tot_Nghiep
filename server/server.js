@@ -19,9 +19,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 
 app.use("/uploads", express.static("uploads"));
-app.use("/v1/api/test", (req, res) => {
-  res.send("Hello");
-});
+
 app.use("/v1/api", userRoutes);
 
 app.use(errorHandling);

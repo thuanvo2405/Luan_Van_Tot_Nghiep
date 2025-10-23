@@ -7,7 +7,9 @@ export const signUpService = async (username, email, hashedPassword) => {
   );
 
   if (checkUser.rows.length > 0) {
-    throw new Error("Email already exists");
+    const error = new Error("Email này đã tồn tại");
+    error.statusCode = 400;
+    throw error;
   }
 
   const result = await pool.query(

@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
-function jwtTokens(manguoidung) {
+function jwtTokens(user) {
   const payload = {
-    user: { id: manguoidung },
+    user: { id: user.manguoidung, role: user.vaitro },
   };
 
   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {

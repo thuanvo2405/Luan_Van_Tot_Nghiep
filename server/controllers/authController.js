@@ -11,11 +11,10 @@ const saltRound = 10;
 dotenv.config();
 
 export const signup = async (req, res, next) => {
-  const { tenNguoiDung, email, matKhau } = req.body;
-
+  const { tennguoidung, email, matkhau } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(matKhau, 10);
-    const user = await signUpService(tenNguoiDung, email, hashedPassword);
+    const hashedPassword = await bcrypt.hash(matkhau, 10);
+    const user = await signUpService(tennguoidung, email, hashedPassword);
     console.log(user);
     const verifyToken = jwt.sign(
       { userId: user.manguoidung },
@@ -27,7 +26,7 @@ export const signup = async (req, res, next) => {
 
     res.status(200).json({
       message:
-        "User created successfully. Please check your email to verify your account.",
+        "Tài khoản tạo thành công.Vui lòng vào mail để xác thực tài khoản",
     });
   } catch (error) {
     next(error);
@@ -37,16 +36,17 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, matKhau } = req.body;
+    console.log(email, matKhau);
 
     const user = await logInService(email);
 
     if (!user) {
-      return res.status(401).json({ error: "Email is not correct!" });
+      return res.status(401).json({ error: "Người dùng không tồn tại" });
     }
 
     const validPassword = await bcrypt.compare(matKhau, user.matkhau);
     if (!validPassword) {
-      return res.status(401).json({ error: "Password is not correct!" });
+      return res.status(401).json({ error: "Mật khẩu không chính xác!" });
     }
 
     if (!user.isverified) {
@@ -107,20 +107,15 @@ export const verifyEmail = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, process.env.EMAIL_TOKEN_SECRET);
-    console.log("Payload:", payload);
 
     await pool.query(
       "UPDATE nguoi_dung SET isverified = true WHERE manguoidung = $1",
       [payload.userId]
     );
 
-    res.send("Email verified successfully. You can now login!");
+    handleResponse(res, 200, "Email verified successfully. You can now login!");
   } catch (error) {
-    res
-      .status(400)
-      .send(
-        "Invalid or expired token. Please request a new verification email."
-      );
+    next(error);
   }
 };
 
