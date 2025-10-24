@@ -11,43 +11,50 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { useAuth } from "@/context/AuthProvider";
 import { Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { URL } from "@/constant/constant";
 
-const loginSchema = z.object({
+const resetPasswordSchema = z.object({
   email: z.string().email("Email không hợp lệ"),
-  password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
 });
 
-interface LoginFormProps {
+interface ResetPasswordFormProps {
   onClose: () => void;
-  switchToRegister: () => void;
-  switchToResetPassword: () => void;
+  switchToLogin: () => void;
 }
 
-export default function LoginForm({
+export default function ResetPasswordForm({
   onClose,
-  switchToRegister,
-  switchToResetPassword,
-}: LoginFormProps) {
-  const { login } = useAuth();
-
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
+  switchToLogin,
+}: ResetPasswordFormProps) {
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: { email: "" },
   });
 
   const isSubmitting = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
-    const success = await login(values.email, values.password);
-    if (success) onClose();
+  async function onSubmit(values: z.infer<typeof resetPasswordSchema>) {
+    console.log(URL);
+    try {
+      await axios.post(`${URL}forgot-password`, {
+        email: values.email,
+      });
+      toast.success("📩 Hãy kiểm tra email của bạn để đặt lại mật khẩu!");
+      onClose();
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || "Gửi yêu cầu thất bại. Thử lại sau!";
+      toast.error(message);
+    }
   }
 
   return (
     <div className="flex flex-col gap-5">
       <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
-        Đăng nhập
+        Đặt lại mật khẩu
       </h2>
 
       <Form {...form}>
@@ -70,20 +77,6 @@ export default function LoginForm({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mật khẩu</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="Mật khẩu" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <Button
             type="submit"
             disabled={isSubmitting}
@@ -92,32 +85,21 @@ export default function LoginForm({
             {isSubmitting ? (
               <>
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Đang đăng nhập...
+                Đang gửi...
               </>
             ) : (
-              "Đăng nhập"
+              "Gửi yêu cầu"
             )}
           </Button>
         </form>
       </Form>
 
-      <div className="flex flex-col items-center mt-4 text-gray-500 dark:text-gray-400 gap-2">
-        <p
-          className="text-sm hover:underline cursor-pointer"
-          onClick={switchToResetPassword}
-        >
-          Quên mật khẩu?
-        </p>
-        <p className="text-sm">
-          Bạn chưa có tài khoản?
-          <span
-            className="text-blue-500 hover:underline cursor-pointer ml-1 font-medium"
-            onClick={switchToRegister}
-          >
-            Đăng ký
-          </span>
-        </p>
-      </div>
+      <p
+        className="text-sm mt-4 text-blue-500 hover:underline cursor-pointer text-center"
+        onClick={switchToLogin}
+      >
+        Quay lại đăng nhập
+      </p>
     </div>
   );
 }

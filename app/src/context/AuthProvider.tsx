@@ -19,6 +19,7 @@ export interface AuthContextProps {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isLoggedIn: () => boolean;
+  resetPassword: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -123,9 +124,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     navigate("/");
   };
 
+  const resetPassword = () => {
+    console.log("Hi");
+  };
+
   return (
     <AuthContext.Provider
-      value={{ login, logout, signup, user, token, isLoggedIn }}
+      value={{ login, logout, signup, user, token, isLoggedIn, resetPassword }}
     >
       {isReady ? children : null}
     </AuthContext.Provider>

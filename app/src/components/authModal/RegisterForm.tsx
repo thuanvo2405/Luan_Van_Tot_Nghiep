@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -9,16 +9,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "../ui/form";
+import { Input } from "../ui/input";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthProvider";
 import { Loader2 } from "lucide-react";
-
-interface RegisterFormProps {
-  switchForm: () => void;
-  onClose: () => void;
-}
 
 const registerSchema = z
   .object({
@@ -32,8 +27,13 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
+interface RegisterFormProps {
+  switchToLogin: () => void;
+  onClose: () => void;
+}
+
 export default function RegisterForm({
-  switchForm,
+  switchToLogin,
   onClose,
 }: RegisterFormProps) {
   const { signup } = useAuth();
@@ -57,9 +57,7 @@ export default function RegisterForm({
         values.userName,
         values.password
       );
-      if (success) {
-        onClose();
-      }
+      if (success) onClose();
     } catch (error: any) {
       toast.error(error.message || "Có lỗi xảy ra khi đăng ký");
     }
@@ -67,7 +65,7 @@ export default function RegisterForm({
 
   return (
     <div className="flex flex-col gap-5">
-      <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 text-center">
+      <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
         Đăng ký
       </h2>
 
@@ -90,7 +88,6 @@ export default function RegisterForm({
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="email"
@@ -98,13 +95,12 @@ export default function RegisterForm({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Email" {...field} />
+                  <Input type="email" placeholder="Email của bạn" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="password"
@@ -118,7 +114,6 @@ export default function RegisterForm({
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="confirmPassword"
@@ -154,17 +149,15 @@ export default function RegisterForm({
         </form>
       </Form>
 
-      <div className="flex items-center justify-center mt-4 text-gray-500 dark:text-gray-400">
-        <p className="text-sm">
-          Bạn đã có tài khoản?
-          <span
-            className="text-blue-500 hover:underline cursor-pointer ml-1 font-medium"
-            onClick={switchForm}
-          >
-            Đăng nhập
-          </span>
-        </p>
-      </div>
+      <p className="text-sm text-center mt-4 text-gray-500 dark:text-gray-400">
+        Đã có tài khoản?
+        <span
+          className="text-blue-500 hover:underline cursor-pointer ml-1 font-medium"
+          onClick={switchToLogin}
+        >
+          Đăng nhập
+        </span>
+      </p>
     </div>
   );
 }

@@ -26,4 +26,22 @@ const sendVerificationEmail = async (toEmail, token) => {
   await transporter.sendMail(mailOptions);
 };
 
-export default sendVerificationEmail;
+const sendResetPasswordMail = async (toEmail, token) => {
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+
+  const mailOptions = {
+    from: `"Eventify App" <eventify.email@gmail.com>`,
+    to: toEmail,
+    subject: "Đặt lại mật khẩu cho tài khoản của bạn",
+    html: `
+      <p>Chào bạn,</p>
+      <p>Vui lòng nhấn vào link dưới đây để đặt lại mật khẩu:</p>
+      <a href="${resetLink}">Nhấn vào đây để reset password</a>
+      <p>Link chỉ có hiệu lực trong 15 phút.</p>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export { sendVerificationEmail, sendResetPasswordMail };

@@ -1,6 +1,6 @@
-// axiosInstance.ts
 import axios from "axios";
 import { URL } from "@/constant/constant";
+import toast from "react-hot-toast";
 
 const axiosInstance = axios.create({
   baseURL: URL,
@@ -44,7 +44,8 @@ axiosInstance.interceptors.response.use(
         console.error("Refresh token failed", refreshError);
         localStorage.removeItem("tokens");
         localStorage.removeItem("user");
-        window.location.href = "/login";
+        toast.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
+        window.location.reload();
       }
     }
 

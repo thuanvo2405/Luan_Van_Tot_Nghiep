@@ -5,7 +5,10 @@ import pool from "../config/db.js";
 import { logInService, signUpService } from "../models/userModel.js";
 import { jwtTokens } from "../utils/jwtHelper.js";
 import handleResponse from "../utils/handleResponse.js";
-import sendVerificationEmail from "../utils/sendEmail.js";
+import {
+  sendVerificationEmail,
+  sendResetPasswordMail,
+} from "../utils/sendEmail.js";
 
 const saltRound = 10;
 dotenv.config();
@@ -140,6 +143,51 @@ export const resendVerificationEmail = async (req, res, next) => {
     res
       .status(200)
       .json({ message: "Verification email resent. Please check your inbox." });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const result = await pool.query("Select * from nguoi_dung where email=$1", [
+      email,
+    ]);
+    const user = result.rows[0];
+    console.log(user);
+    const token = jwt.sign(
+      { manguoidung: user.manguoidung },
+      process.env.EMAIL_TOKEN_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
+
+    await sendResetPasswordMail(email, token);
+
+    handleResponse(res, 200, "Nếu email tồn tại, bạn sẽ nhận được link");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { token } = req.query;
+    const { password } = req.body;
+
+    const payload = jwt.verify(token, process.env.EMAIL_TOKEN_SECRET);
+    const manguoidung = payload.manguoidung;
+
+    const hashedPassword = await bcrypt.hash(password, saltRound);
+    await pool.query(
+      "UPDATE nguoi_dung SET matkhau = $1 WHERE manguoidung = $2",
+      [hashedPassword, manguoidung]
+    );
+
+    handleResponse(res, 200, "Mật khẩu đã thay đổi thành công!");
   } catch (error) {
     next(error);
   }

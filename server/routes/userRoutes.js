@@ -6,6 +6,8 @@ import {
   deleteRefreshToken,
   resendVerificationEmail,
   verifyEmail,
+  forgotPassword,
+  resetPassword,
 } from "../controllers/authController.js";
 import { authenticateToken } from "../middleware/authorization.js";
 import checkRole from "../middleware/verifyRole.js";
@@ -16,6 +18,8 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/refresh_token", getRefreshToken);
 router.delete("/refresh_token", deleteRefreshToken);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 
 // Email verification
 router.post("/resend-verification", resendVerificationEmail);
