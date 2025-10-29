@@ -8,6 +8,7 @@ import VerifyEmailPage from "./page/verifyemailpage";
 import ResetPasswordPage from "./page/ResetPasswordPage";
 import MyTicketPage from "./page/myticketpage";
 import ProfileLayout from "./components/layout/profilelayout";
+import EventPage from "./page/eventpage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="search" element={<SearchPage />} />
         <Route path="verify-email" element={<VerifyEmailPage />} />
         <Route path="reset-password" element={<ResetPasswordPage />} />
+        <Route path="event" element={<EventPage />} />
         <Route element={<ProfileLayout />}>
           <Route path="my-profile" element={<ProfilePage />} />
           <Route path="my-tickets" element={<MyTicketPage />} />

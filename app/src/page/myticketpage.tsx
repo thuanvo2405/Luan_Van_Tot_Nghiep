@@ -20,10 +20,8 @@ export default function MyTicketPage() {
   return (
     <div className="min-h-[calc(100vh-120px)] bg-gray-50 text-gray-800 px-6 py-10">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
         <h1 className="text-2xl font-semibold mb-8">Vé của tôi</h1>
 
-        {/* Tabs cha */}
         <div className="flex flex-wrap gap-3 border-b border-gray-200 pb-4">
           {mainTabs.map((tab) => (
             <button
@@ -40,7 +38,6 @@ export default function MyTicketPage() {
           ))}
         </div>
 
-        {/* Tabs con */}
         <div className="flex justify-center gap-6 mt-6 border-b border-gray-200 pb-2">
           {subTabs.map((tab) => (
             <button
