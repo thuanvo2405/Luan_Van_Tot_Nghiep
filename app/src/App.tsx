@@ -1,14 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./page/HomePage";
 import Layout from "./components/layout/layout";
-import SearchPage from "./page/searchpage";
-import ProfilePage from "./page/profilepage";
-import OrganizerPage from "./page/organizer";
-import VerifyEmailPage from "./page/verifyemailpage";
 import ResetPasswordPage from "./page/ResetPasswordPage";
-import MyTicketPage from "./page/myticketpage";
+import MyTicketPage from "./page/MyTicketPage";
 import ProfileLayout from "./components/layout/profilelayout";
-import EventPage from "./page/eventpage";
+import AdminPage from "./page/AdminPage";
+import EventPage from "./page/EventPage";
+import SearchPage from "./page/SearchPage";
+import VerifyEmailPage from "./page/VerifyEmailPage";
+import ProfilePage from "./page/ProfilePage";
+import OrganizerPage from "./page/OrganizerPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         </Route>
       </Route>
       <Route path="organizer" element={<OrganizerPage />} />
+      <Route path="admin" element={<AdminPage />} />
     </Routes>
   );
 }

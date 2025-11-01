@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-export default function ProfileLayout() {
+export default function   ProfileLayout() {
   const location = useLocation();
   const getPageTitle = () => {
     if (location.pathname.includes("my-tickets")) return "Vé của tôi";

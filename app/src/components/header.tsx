@@ -92,7 +92,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Auth modal */}
       {modalOpen && (
         <AuthModal initialTab={modalOpen} onClose={() => setModalOpen(null)} />
       )}
